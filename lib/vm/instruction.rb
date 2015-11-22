@@ -3,14 +3,14 @@ class Instruction
 
 end
 
-def PlainInstruction < Instruction
+class PlainInstruction < Instruction
 
   def initialize(mnemonic)
     @mnemonic = mnemonic
   end
 end
 
-def UnaryInstruction < Instruction
+class UnaryInstruction < Instruction
 
   def initialize(mnemonic, value)
     @mnemonic = mnemonic
@@ -18,7 +18,7 @@ def UnaryInstruction < Instruction
   end
 end
 
-def BinaryInstruction < Instruction
+class BinaryInstruction < Instruction
 
   def initialize(mnemonic, lhs, rhs)
     @mnemonic = mnemonic
@@ -27,7 +27,7 @@ def BinaryInstruction < Instruction
   end
 end
 
-def JumpInstruction < Instruction
+class JumpInstruction < Instruction
   def initialize(mnemonic, target)
     @mnemonic = mnemonic
     @target = target

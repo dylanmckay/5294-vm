@@ -28,17 +28,22 @@ class Cpu
 
   def execute(instruction)
     case instruction.mnemonic
-    when :swp; swp
-    when :sav; sav
-    when :add; add(instruction.value)
-    when :sub; sub(instruction.value)
-    when :mov; mov(instruction.lhs, instruction.rhs)
-    when :jmp; jmp(instruction.target)
-    when :jez; jez(instruction.target)
-    when :jnz; jnz(instruction.target)
-    when :jgz; jgz(instruction.target)
-    when :jlz; jlz(instruction.target)
+    when :swp then swp
+    when :sav then sav
+    when :add then add(instruction.value)
+    when :sub then sub(instruction.value)
+    when :mov then mov(instruction.lhs, instruction.rhs)
+    when :jmp then jmp(instruction.target)
+    when :jez then jez(instruction.target)
+    when :jnz then jnz(instruction.target)
+    when :jgz then jgz(instruction.target)
+    when :jlz then jlz(instruction.target)
     end
+  end
+
+  def tick
+    instruction = fetch
+    execute(instruction)
   end
 
   def swp
@@ -81,6 +86,10 @@ class Cpu
 
   def jlz(target)
     conditional_jump(@a < 0, target)
+  end
+
+  def running?
+    program_counter_in_bounds?
   end
 
   private

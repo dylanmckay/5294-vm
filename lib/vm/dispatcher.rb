@@ -3,23 +3,24 @@ require_relative 'cpu'
 
 class Dispatcher
 
-  def initialize(core_count,
-                 instructions,
-                 bus)
+  def initialize(instructions, bus)
 
-    fail if core_count <= 0
-
-    @cores = (0..core_count).map do |cpu_number|
+    @cores = (0..instructions.length).map do |cpu_number|
       Cpu.new(instructions[cpu_number], bus)
     end
   end
 
   def tick
-    instruction = fetch
-    execute(instruction)
+    @cores.each do |core|
+      core.tick
+    end
   end
 
   def run
+    tick while running?
+  end
 
+  def running?
+    @cores.each.any?(&:running?)
   end
 end

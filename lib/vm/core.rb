@@ -1,12 +1,12 @@
 require_relative 'instruction'
 
-class CpuException
+class CoreException
   def initialize(msg)
     @msg = msg
   end
 end
 
-class Cpu
+class Core
 
   def initialize(instructions, bus)
     @a = nil
@@ -23,7 +23,7 @@ class Cpu
     end
 
     if !program_counter_in_bounds?
-      raise CpuException('program jumped out of range')
+      raise CoreException('program jumped out of range')
     end
 
     instruction = @instructions[@program_counter]

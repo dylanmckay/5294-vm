@@ -1,12 +1,12 @@
 
-require_relative 'cpu'
+require_relative 'core'
 
 class Dispatcher
 
   def initialize(instructions, bus)
 
-    @cores = (0..instructions.length).map do |cpu_number|
-      Cpu.new(instructions[cpu_number], bus)
+    @cores = (0..instructions.length).map do |core_number|
+      Core.new(instructions[core_number], bus)
     end
   end
 

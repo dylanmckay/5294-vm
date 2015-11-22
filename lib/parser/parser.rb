@@ -2,14 +2,17 @@ require_relative "../vm/instruction"
 require_relative "../vm/operand"
 
 class Parser
+  class ParseError < StandardError
+  end
+
   module Matchers
     def self.instruction_regex(mnemonics, *args)
       args = args.map.with_index { |arg, i| "(?<operand#{i}>#{arg})" }.join("\\s*,\\s*")
-      Regexp.new("(?<mnemonic>#{mnemonics.join("|")})\\s*#{args}")
+      Regexp.new("^(?<mnemonic>#{mnemonics.join("|")})\\s*#{args}$")
     end
 
     CPU_ID = /#(?<cpu_id>[0-9])/
-    INTEGER = /(\+|-)?[1-9][0-9]*/
+    INTEGER = /(\+|-)?[0-9]+/
     SOURCE = /in|a|null|#{INTEGER}|#[0-9]/
     DEST = /out|a|null|#[0-9]/
 
@@ -42,7 +45,7 @@ class Parser
     elsif line =~ Matchers::JUMP_INSTRUCTION
       jump_instruction(Regexp.last_match)
     else
-      fail "Unable to parse line #{line}"
+      fail ParseError, "Unable to parse line #{line}"
     end
   end
 
@@ -59,7 +62,7 @@ class Parser
   end
 
   def jump_instruction(match)
-    JumpInstruction.new(match[:mnemonic].to_sym, parse_operand(match[:operand0]))
+    JumpInstruction.new(match[:mnemonic].to_sym, match[:operand0].to_i)
   end
 
   def parse_operand(operand)
@@ -71,7 +74,7 @@ class Parser
       Operand.send(operand.to_sym)
     end
   rescue NoMethodError => e
-    fail "Unable to parse operand #{operand}"
+    fail ParseError, "Unable to parse operand #{operand}"
   end
 
   def each_cpu(&block)

@@ -11,6 +11,8 @@ end
 
 class PlainInstruction < Instruction
 
+  attr_reader :mnemonic
+
   def initialize(mnemonic)
     @mnemonic = mnemonic
   end
@@ -21,6 +23,8 @@ class PlainInstruction < Instruction
 end
 
 class UnaryInstruction < Instruction
+
+  attr_reader :mnemonic, :value
 
   def initialize(mnemonic, value)
     @mnemonic = mnemonic
@@ -34,6 +38,8 @@ end
 
 class BinaryInstruction < Instruction
 
+  attr_reader :mnemonic, :lhs, :rhs
+
   def initialize(mnemonic, lhs, rhs)
     @mnemonic = mnemonic
     @lhs = lhs
@@ -46,6 +52,9 @@ class BinaryInstruction < Instruction
 end
 
 class JumpInstruction < Instruction
+
+  attr_reader :mnemonic, :target
+
   def initialize(mnemonic, target)
     @mnemonic = mnemonic
     @target = target

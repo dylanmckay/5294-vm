@@ -5,7 +5,7 @@ class Dispatcher
 
   def initialize(instructions, bus)
 
-    @cores = (0..instructions.length).map do |core_number|
+    @cores = (0...instructions.length).map do |core_number|
       Core.new(instructions[core_number], bus)
     end
   end

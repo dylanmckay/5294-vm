@@ -110,10 +110,10 @@ class Core
   def conditional_jump(condition,
                        target)
     if condition
-      if target == 0
+      if target.is_integer? && target.value == 0
         halt
       else
-        @program_counter += target
+        @program_counter += target.value
       end
     end
   end

@@ -58,6 +58,6 @@ class Operand
   end
 
   def ==(other)
-    type == other.type && value == other.value
+    @type == other.type && @value == other.value
   end
 end

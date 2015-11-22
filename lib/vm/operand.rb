@@ -56,5 +56,8 @@ class Operand
   def is_cpu?
     @type == :cpu
   end
-end
 
+  def ==(other)
+    type == other.type && value == other.value
+  end
+end

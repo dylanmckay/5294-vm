@@ -3,7 +3,7 @@
 class CliBus
   def read_integer
     print "Please enter an integer: "
-    gets.chomp
+    $stdin.gets.chomp.to_i
   end
 
   def write_integer(value)

@@ -25,7 +25,48 @@ class Cpu
   end
 
   def execute(instruction)
+    case instruction.mnemonic
+    when :swp swp
+    when :sav sav
+    when :add add(instruction.lhs, instruction.rhs)
+    when :sub sub(instruction.lhs, instruction.rhs)
+    when :mov mov(instruction.lhs, instruction.rhs)
+    when :jmp jmp(instruction.target)
+    when :jez jez(instruction.target)
+    when :jnz jnz(instruction.target)
+    when :jgz jgz(instruction.target)
+    when :jlz jlz(instruction.target)
+    end
+  end
 
+  def swp
+  end
+
+  def sav
+  end
+
+  def add(lhs, rhs)
+  end
+
+  def sub(lhs, rhs)
+  end
+
+  def mov(lhs, rhs)
+  end
+
+  def jmp(target)
+  end
+
+  def jez(target)
+  end
+
+  def jnz(target)
+  end
+
+  def jgz(target)
+  end
+
+  def jlz(target)
   end
 
   private

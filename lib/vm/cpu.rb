@@ -60,7 +60,7 @@ class Cpu
   end
 
   def mov(source, destination)
-
+    write_destination(destination, read_source(source))
   end
 
   def jmp(target)
@@ -112,6 +112,18 @@ class Cpu
     elsif source.is_integer?
       source.value
     elsif source.is_cpu?
+      # TODO
+    end
+  end
+
+  def write_destination(destination, value)
+    if destination.is_null?
+      # do nothing
+    elsif destination.is_out?
+      @bus.write_integer(value)
+    elsif destination.is_a?
+      @a = value
+    elsif destination.is_cpu?
       # TODO
     end
   end

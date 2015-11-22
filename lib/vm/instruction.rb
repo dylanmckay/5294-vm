@@ -14,6 +14,10 @@ class PlainInstruction < Instruction
   def initialize(mnemonic)
     @mnemonic = mnemonic
   end
+
+  def to_s
+    @mnemonic.to_s
+  end
 end
 
 class UnaryInstruction < Instruction
@@ -21,6 +25,10 @@ class UnaryInstruction < Instruction
   def initialize(mnemonic, value)
     @mnemonic = mnemonic
     @value = value
+  end
+
+  def to_s
+    "#{@mnemonic} #{@value}"
   end
 end
 
@@ -31,11 +39,19 @@ class BinaryInstruction < Instruction
     @lhs = lhs
     @rhs = rhs
   end
+
+  def to_s
+    "#{@mnemonic} #{@lhs} #{@rhs}"
+  end
 end
 
 class JumpInstruction < Instruction
   def initialize(mnemonic, target)
     @mnemonic = mnemonic
     @target = target
+  end
+
+  def to_s
+    "#{@mnemonic} #{@target}"
   end
 end

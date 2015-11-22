@@ -26,16 +26,16 @@ class Cpu
 
   def execute(instruction)
     case instruction.mnemonic
-    when :swp swp
-    when :sav sav
-    when :add add(instruction.value)
-    when :sub sub(instruction.value)
-    when :mov mov(instruction.lhs, instruction.rhs)
-    when :jmp jmp(instruction.target)
-    when :jez jez(instruction.target)
-    when :jnz jnz(instruction.target)
-    when :jgz jgz(instruction.target)
-    when :jlz jlz(instruction.target)
+    when :swp; swp
+    when :sav; sav
+    when :add; add(instruction.value)
+    when :sub; sub(instruction.value)
+    when :mov; mov(instruction.lhs, instruction.rhs)
+    when :jmp; jmp(instruction.target)
+    when :jez; jez(instruction.target)
+    when :jnz; jnz(instruction.target)
+    when :jgz; jgz(instruction.target)
+    when :jlz; jlz(instruction.target)
     end
   end
 

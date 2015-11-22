@@ -60,4 +60,18 @@ class Operand
   def ==(other)
     @type == other.type && @value == other.value
   end
+
+  def to_s
+    case @type
+    when :null then "null"
+    when :register then @value.to_s
+    when :integer then @value.to_s
+    when :cpu then "\##{@value}"
+    when :io then
+      case @value
+      when :in then "in"
+      when :out then "out"
+      end
+    end
+  end
 end

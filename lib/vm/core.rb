@@ -8,9 +8,11 @@ end
 
 class Core
 
+  attr_reader :a, :b, :program_counter, :halted
+
   def initialize(instructions, bus)
-    @a = nil
-    @b = nil
+    @a = 0
+    @b = 0
     @instructions = instructions
     @bus = bus
     @program_counter = 0

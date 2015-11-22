@@ -28,8 +28,8 @@ class Cpu
     case instruction.mnemonic
     when :swp swp
     when :sav sav
-    when :add add(instruction.lhs, instruction.rhs)
-    when :sub sub(instruction.lhs, instruction.rhs)
+    when :add add(instruction.value)
+    when :sub sub(instruction.value)
     when :mov mov(instruction.lhs, instruction.rhs)
     when :jmp jmp(instruction.target)
     when :jez jez(instruction.target)
@@ -40,33 +40,45 @@ class Cpu
   end
 
   def swp
+    tmp = @b
+    @b = @a
+    @a = tmp
   end
 
   def sav
+    @b = @a
   end
 
-  def add(lhs, rhs)
+  def add(source)
+    @a += read_source(source)
   end
 
-  def sub(lhs, rhs)
+  def sub(source)
+    @b -= read_source(source)
   end
 
-  def mov(lhs, rhs)
+  def mov(source, destination)
+
   end
 
   def jmp(target)
+    conditional_jump(true, target)
   end
 
   def jez(target)
+    conditional_jump(@a == 0, target)
   end
 
   def jnz(target)
+    conditional_jump(@a != 0, target)
   end
 
   def jgz(target)
+    conditional_jump(@a > 0, target)
   end
 
   def jlz(target)
+    conditional_jump(@a < 0, target)
   end
 
   private
@@ -77,4 +89,28 @@ class Cpu
       @program_counter < @instructions.length
   end
 
+  def conditional_jump(condition,
+                       target)
+    if condition
+      if target == 0
+        # TODO: do infinite loop
+      else
+        @program_counter += target
+      end
+    end
+  end
+
+  def read_source(source)
+    if source.is_null?
+      0
+    elsif source.is_in?
+      # TODO
+    elsif source.is_a?
+      @a
+    elsif source.is_integer?
+      source.value
+    elsif source.is_cpu?
+      # TODO
+    end
+  end
 end

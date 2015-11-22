@@ -35,27 +35,27 @@ RSpec.describe Parser do
 
       context "when parsing a jmp instruction" do
         let(:instruction) { "jmp 0" }
-        it { is_expected.to eq JumpInstruction.new(:jmp, 0) }
+        it { is_expected.to eq JumpInstruction.new(:jmp, Operand.integer(0)) }
       end
 
       context "when parsing a jez instruction" do
         let(:instruction) { "jez +100" }
-        it { is_expected.to eq JumpInstruction.new(:jez, 100) }
+        it { is_expected.to eq JumpInstruction.new(:jez, Operand.integer(100)) }
       end
 
       context "when parsing a jnz instruction" do
         let(:instruction) { "jnz -100" }
-        it { is_expected.to eq JumpInstruction.new(:jnz, -100) }
+        it { is_expected.to eq JumpInstruction.new(:jnz, Operand.integer(-100)) }
       end
 
       context "when parsing a jlz instruction" do
         let(:instruction) { "jlz -5" }
-        it { is_expected.to eq JumpInstruction.new(:jlz, -5) }
+        it { is_expected.to eq JumpInstruction.new(:jlz, Operand.integer(-5)) }
       end
 
       context "when parsing a jgz instruction" do
         let(:instruction) { "jgz +9" }
-        it { is_expected.to eq JumpInstruction.new(:jgz, 9) }
+        it { is_expected.to eq JumpInstruction.new(:jgz, Operand.integer(9)) }
       end
 
       context "when parsing an invalid instruction" do

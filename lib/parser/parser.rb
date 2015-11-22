@@ -62,7 +62,7 @@ class Parser
   end
 
   def jump_instruction(match)
-    JumpInstruction.new(match[:mnemonic].to_sym, match[:operand0].to_i)
+    JumpInstruction.new(match[:mnemonic].to_sym, parse_operand(match[:operand0]))
   end
 
   def parse_operand(operand)
@@ -100,6 +100,7 @@ class Parser
   end
 
   def strip_comment(line)
+    # Anything after a tilde is considered a comment
     line.sub(/\s*~.*$/, "")
   end
 end

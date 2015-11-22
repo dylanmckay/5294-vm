@@ -10,13 +10,16 @@ class Core
 
   attr_reader :a, :b, :program_counter, :halted
 
-  def initialize(instructions, bus)
+  def initialize(instructions,
+                 bus,
+                 dispatcher = nil)
     @a = 0
     @b = 0
     @instructions = instructions
     @bus = bus
     @program_counter = 0
     @halted = false
+    @dispatcher = dispatcher
   end
 
   def fetch

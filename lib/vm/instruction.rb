@@ -10,6 +10,14 @@ def PlainInstruction < Instruction
   end
 end
 
+def UnaryInstruction < Instruction
+
+  def initialize(mnemonic, value)
+    @mnemonic = mnemonic
+    @value = value
+  end
+end
+
 def BinaryInstruction < Instruction
 
   def initialize(mnemonic, lhs, rhs)

@@ -14,9 +14,14 @@ class Cpu
     @instructions = instructions
     @bus = bus
     @program_counter = 0
+    @halted = false
   end
 
   def fetch
+    if @halted
+      return nil
+    end
+
     if !program_counter_in_bounds?
       raise CpuException('program jumped out of range')
     end
@@ -27,6 +32,10 @@ class Cpu
   end
 
   def execute(instruction)
+    if @halted
+      return
+    end
+
     case instruction.mnemonic
     when :swp then swp
     when :sav then sav
@@ -42,6 +51,10 @@ class Cpu
   end
 
   def tick
+    if @halted
+      return
+    end
+
     instruction = fetch
     execute(instruction)
   end
@@ -89,7 +102,7 @@ class Cpu
   end
 
   def running?
-    program_counter_in_bounds?
+    !@halted && program_counter_in_bounds?
   end
 
   private
@@ -98,7 +111,7 @@ class Cpu
                        target)
     if condition
       if target == 0
-        # TODO: do infinite loop
+        halt
       else
         @program_counter += target
       end
@@ -135,5 +148,9 @@ class Cpu
   def program_counter_in_bounds?
     @program_counter >= 0 &&
       @program_counter < @instructions.length
+  end
+
+  def halt
+    @halted = true
   end
 end

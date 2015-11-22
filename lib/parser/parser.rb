@@ -73,8 +73,6 @@ class Parser
     else
       Operand.send(operand.to_sym)
     end
-  rescue NoMethodError => e
-    fail ParseError, "Unable to parse operand #{operand}"
   end
 
   def each_cpu(&block)

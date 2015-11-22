@@ -1,3 +1,6 @@
+require 'simplecov'
+SimpleCov.start
+
 require_relative "../lib/parser/parser"
 require_relative "../lib/vm/cli_bus"
 require_relative "../lib/vm/cpu"

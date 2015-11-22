@@ -8,22 +8,10 @@ end
 
 class Cpu
 
-  def initialize(instructions, bus)
+  def initialize(dispatcher)
     @a = nil
     @b = nil
-    @instructions = instructions
-    @bus = bus
-    @program_counter = 0
-  end
-
-  def fetch
-    if !program_counter_in_bounds?
-      raise CpuException('program jumped out of range')
-    end
-
-    instruction = @instructions[@program_counter]
-    @program_counter += 1
-    instruction
+    @dispatcher = dispatcher
   end
 
   def execute(instruction)
@@ -84,13 +72,6 @@ class Cpu
   end
 
   private
-
-  # Checks if the program counter is inside the program.
-  def program_counter_in_bounds?
-    @program_counter > 0 &&
-      @program_counter < @instructions.length
-  end
-
   def conditional_jump(condition,
                        target)
     if condition

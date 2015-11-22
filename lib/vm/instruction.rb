@@ -10,7 +10,7 @@ def PlainInstruction < Instruction
   end
 end
 
-def ArithmeticInstruction < Instruction
+def BinaryInstruction < Instruction
 
   def initialize(mnemonic, lhs, rhs)
     @mnemonic = mnemonic

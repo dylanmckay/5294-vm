@@ -1,3 +1,4 @@
+require_relative 'instruction'
 
 class CpuException
   def initialize(msg)
@@ -7,10 +8,11 @@ end
 
 class Cpu
 
-  def initialize(instructions)
+  def initialize(instructions, bus)
     @a = nil
     @b = nil
     @instructions = instructions
+    @bus = bus
     @program_counter = 0
   end
 
@@ -104,7 +106,7 @@ class Cpu
     if source.is_null?
       0
     elsif source.is_in?
-      # TODO
+      @bus.read_integer
     elsif source.is_a?
       @a
     elsif source.is_integer?

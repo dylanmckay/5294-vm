@@ -1,9 +1,6 @@
 require_relative 'instruction'
 
-class CoreException
-  def initialize(msg)
-    @msg = msg
-  end
+class CoreException < Exception
 end
 
 class Message
@@ -16,6 +13,7 @@ end
 
 class Core
   attr_reader :a, :b, :program_counter, :halted
+  attr_writer :a, :b
 
   def initialize(core_number,
                  instructions:,
@@ -69,6 +67,10 @@ class Core
     @program_counter += 1
   end
 
+  def pc
+    @program_counter
+  end
+
   def tick
     if @halted
       return
@@ -76,7 +78,10 @@ class Core
 
     instruction = fetch
     execute(instruction)
-    puts "##{@core_number}: #{instruction} (#{a} #{b})" if @dispatcher.debugging?
+
+    if !@dispatcher.nil? && @dispatcher.debugging
+      puts "##{@core_number}: #{instruction} (#{a} #{b})"
+    end
   end
 
   def run
@@ -141,7 +146,9 @@ class Core
       end
     end
 
-    @program_counter = 0 if @program_counter < 0
+    # we need to take into account the fact that the PC
+    # will be incremented after this function finishes
+    @program_counter = -1 if @program_counter < 0
   end
 
   def read_source(source)

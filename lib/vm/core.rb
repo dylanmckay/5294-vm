@@ -45,9 +45,7 @@ class Core
       raise CoreException('program jumped out of range')
     end
 
-    instruction = @instructions[@program_counter]
-    @program_counter += 1
-    instruction
+    @instructions[@program_counter]
   end
 
   def execute(instruction)
@@ -67,6 +65,8 @@ class Core
     when :jgz then jgz(instruction.target)
     when :jlz then jlz(instruction.target)
     end
+
+    @program_counter += 1
   end
 
   def tick

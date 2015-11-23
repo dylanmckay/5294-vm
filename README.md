@@ -30,6 +30,19 @@ a special source "`in`" and a special destination "`out`". The `mov` instruction
 can also send messages in the form of integers between cores using the
 `#<core-number` syntax.
 
+## Concurrency
+
+To get around the small register file, the architecture supports multiple
+CPU cores running concurrently, with the ability to pass messages between
+eachother. This is accomplished by using a core number as an operand to
+the `mov` instruction.
+
+Whenever a core tries to receive a message using `mov #<core>, <dest>`, it
+is blocked until it receives an integer from the respective core. Messages
+are queued, so that they will arrive in order and will not be thrown away.
+
+
+
 ## Instruction List
 
 * `add <integer>`

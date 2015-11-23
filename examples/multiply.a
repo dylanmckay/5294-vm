@@ -1,0 +1,36 @@
+#0
+mov in, a ~ get first number
+mov a, #2 ~ send to #2 (holder)
+sav       ~ save first number
+mov in, a ~ get second number
+mov a, #1 ~ send to #1 (decrementer)
+
+mov #1, a ~ get from #1
+jlz +5    ~ if finished, go to end
+swp       ~ get first number
+add #2    ~ add second number
+sav       ~ save new total
+jmp -5    ~ loop
+
+swp
+mov a, out ~ print result
+
+#1
+mov #0, a ~ get second number
+sub 1
+sub 1     ~ -2 (so that if 1 is passed in it's immediately < 0)
+mov a, #2
+mov a, #0 ~ give the counter to other cores
+jlz +1000 ~ return if finished
+jmp -4    ~ go back and subtract one
+
+#2
+mov #0, a ~ get second number
+sav       ~ save it
+
+mov #1, a ~ get counter
+jlz +1000 ~ return if finished
+swp       ~ get back the second number
+sav       ~ make sure it's still saved
+mov a, #0 ~ send the number to #0 for adding
+jmp -5    ~ loop

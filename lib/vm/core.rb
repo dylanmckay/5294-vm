@@ -140,6 +140,8 @@ class Core
         @program_counter += target.value - 1
       end
     end
+
+    @program_counter = 0 if @program_counter < 0
   end
 
   def read_source(source)

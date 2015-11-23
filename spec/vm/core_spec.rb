@@ -20,6 +20,10 @@ describe Core do
     Operand.out
   end
 
+  def null
+    Operand.null
+  end
+
   def cpu_core(number)
     Operand.core(number)
   end
@@ -36,8 +40,8 @@ describe Core do
     JumpInstruction.new(:jmp, target)
   end
 
-  def mov(dst, src)
-    BinaryInstruction.new(:mov, dst, src)
+  def mov(src, dst)
+    BinaryInstruction.new(:mov, src, dst)
   end
 
   def sav
@@ -143,6 +147,11 @@ describe Core do
         expect(bus).to receive(:write_integer)
         execute(mov(a,io_out))
       end
+
+      # it "reads zero when the source is null" do
+      #   execute(mov(integer(2),a))
+      #   expect {execute(mov(null,a))}.to change{core.a}.to(0)
+      # end
     end
   end
 
@@ -161,6 +170,11 @@ describe Core do
       it "jumps to the beginning if the target is negative" do
         execute(jmp(integer(-5)))
         expect(core.pc).to eq 0
+      end
+
+      it "halts if the target is zero" do
+        expect(core).to receive(:halt).at_least(:once)
+        execute(jmp(integer(0)))
       end
     end
 
@@ -220,6 +234,23 @@ describe Core do
     it "passes messages on to the dispatcher" do
       expect(dispatcher).to receive(:post_message)
       execute(mov(integer(52), cpu_core(1)))
+    end
+
+    # it "receives a message once it is sent" do
+    #   core.post_message(1, 53)
+    #   expect { mov(a,cpu_core(1),a) }.to change {core.a}.to 53
+    # end
+  end
+
+  context "when halted" do
+    before {
+      core.halt
+    }
+
+    describe "#tick" do
+      it "does nothing" do
+        expect {execute(add(integer(1)))}.not_to change{core.a}
+      end
     end
   end
 

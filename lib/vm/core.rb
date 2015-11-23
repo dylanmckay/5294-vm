@@ -81,10 +81,6 @@ class Core
 
     instruction = fetch
     execute(instruction)
-
-    if !@dispatcher.nil? && @dispatcher.debugging?
-      puts "##{@core_number}: #{instruction} (#{a} #{b})"
-    end
   end
 
   def run
@@ -108,6 +104,7 @@ class Core
   end
 
   def mov(source, destination)
+    puts "mov #{source.inspect}, #{destination.inspect}"
     write_destination(destination, read_source(source))
   end
 
@@ -133,6 +130,10 @@ class Core
 
   def running?
     !@halted && program_counter_in_bounds?
+  end
+
+  def halt
+    @halted = true
   end
 
   private
@@ -186,10 +187,6 @@ class Core
   def program_counter_in_bounds?
     @program_counter >= 0 &&
       @program_counter < @instructions.length
-  end
-
-  def halt
-    @halted = true
   end
 
   def receive_message_from(core_number)

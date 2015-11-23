@@ -5,10 +5,10 @@ class Dispatcher
 
   attr_reader :cores
 
-  def initialize(instructions, bus:, debug: false)
+  def initialize(programs, bus:, debug: false)
     @debug = debug
-    @cores = instructions.map_with_index do |core,number|
-      Core.new(number, instructions: instructions[core_number],
+    @cores = programs.map_with_index do |core,number|
+      Core.new(number, instructions: programs[core_number],
                bus: bus, dispatcher: self)
     end
   end

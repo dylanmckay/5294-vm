@@ -7,9 +7,9 @@ class Dispatcher
 
   def initialize(instructions, bus:, debug: false)
     @debug = debug
-    @cores = (0...instructions.length).map do |core_number|
-      Core.new(core_number, instructions: instructions[core_number],
-        bus: bus, dispatcher: self)
+    @cores = instructions.map_with_index do |core,number|
+      Core.new(number, instructions: instructions[core_number],
+               bus: bus, dispatcher: self)
     end
   end
 

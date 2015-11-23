@@ -1,0 +1,55 @@
+~~~ main ~~~
+#0
+~ start
+mov in, a  ~ get numerator
+sav        ~ save it
+mov in, #1 ~ get denominator
+
+~ loop
+sav       ~ save the numerator
+sub #1    ~ subtract denominator
+jlz +4    ~ goto end if less than 0
+mov 1, #1 ~ tell the denominator to keep sending
+mov 1, #2 ~ count up
+jmp -5    ~ loop
+
+~ end
+mov -1, #1  ~ tell the store to stop
+mov -1, #2  ~ tell the counter to stop
+mov #2, out ~ display the counter
+swp         ~ get back the last numerator (the remainder)
+mov a, out  ~ display it
+
+jmp -1000   ~ goto start
+
+~~~ denominator store ~~~
+#1
+~ start
+mov #0, a ~ store the denominator
+sav       ~ make sure it's saved
+
+~ loop
+mov a, #0 ~ tell the main thread what the denominator is
+mov #0, a ~ see what the main thread wants us to do
+jlz -1000 ~ goto start if the main thread is done
+swp       ~ otherwise, get back the denominator and save it
+sav
+jmp -5    ~ loop
+
+~~~ counter ~~~
+#2
+~ start
+mov 0, a ~ start at 0
+
+~ loop
+sav       ~ save the counter
+mov #0, a ~ see what the main thread wants us to do
+jlz +4    ~ goto end if we're told to
+swp       ~ otherwise, get back the counter
+add 1     ~ increment it
+jmp -5    ~ loop
+
+~ end
+swp       ~ get back the counter
+mov a, #0 ~ tell the main thread what we counted up to
+jmp -1000 ~ goto start

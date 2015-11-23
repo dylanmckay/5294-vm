@@ -65,7 +65,7 @@ class Core
     @program_counter += 1
 
     if !program_counter_in_bounds?
-      raise CoreException('program jumped out of range')
+      halt
     end
 
   end

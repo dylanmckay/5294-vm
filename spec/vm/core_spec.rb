@@ -11,11 +11,11 @@ describe Core do
     Operand.a
   end
 
-  def in
+  def io_in
     Operand.in
   end
 
-  def out
+  def io_out
     Operand.out
   end
 
@@ -47,8 +47,10 @@ describe Core do
     core.execute(inst)
   end
 
+  let(:bus) { instance_double(CliBus) }
+
   let(:core) {
-    Core.new(0, instructions: [], bus: instance_double(CliBus))
+    Core.new(0, instructions: [], bus: bus)
   }
 
   it "fetches instructions correctly" do
@@ -129,7 +131,15 @@ describe Core do
     end
 
     context "mov instruction" do
-      # TODO
+      it "calls 'read_integer' when the source is `in`" do
+        expect(bus).to receive(:read_integer).and_return(13)
+        execute(mov(io_in,a))
+      end
+
+      it "calls `write_integer` when the destination is `in`" do
+        expect(bus).to receive(:write_integer)
+        execute(mov(a,io_out))
+      end
     end
   end
 

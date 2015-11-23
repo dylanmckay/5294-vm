@@ -15,13 +15,12 @@ class Message
 end
 
 class Core
-
   attr_reader :a, :b, :program_counter, :halted
 
   def initialize(core_number,
-                 instructions,
-                 bus,
-                 dispatcher = nil)
+                 instructions:,
+                 bus:,
+                 dispatcher: nil)
     @a = 1
     @b = 0
     @core_number = core_number
@@ -77,6 +76,7 @@ class Core
 
     instruction = fetch
     execute(instruction)
+    puts "##{@core_number}: #{instruction} (#{a} #{b})" if @dispatcher.debugging?
   end
 
   def run
@@ -98,7 +98,7 @@ class Core
   end
 
   def sub(source)
-    @b -= read_source(source)
+    @a -= read_source(source)
   end
 
   def mov(source, destination)
@@ -190,6 +190,5 @@ class Core
         end
       end
     end
-    @messages.shift
   end
 end

@@ -5,10 +5,11 @@ class Dispatcher
 
   attr_reader :cores
 
-  def initialize(instructions, bus)
-
+  def initialize(instructions, bus:, debug: false)
+    @debug = debug
     @cores = (0...instructions.length).map do |core_number|
-      Core.new(core_number, instructions[core_number], bus, self)
+      Core.new(core_number, instructions: instructions[core_number],
+        bus: bus, dispatcher: self)
     end
   end
 
@@ -22,6 +23,10 @@ class Dispatcher
 
   def running?
     @cores.each.any?(&:running?)
+  end
+
+  def debugging?
+    @debug
   end
 
   def post_message(sender, core_number, value)

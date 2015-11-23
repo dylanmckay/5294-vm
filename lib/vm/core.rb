@@ -137,7 +137,7 @@ class Core
       if target.is_integer? && target.value == 0
         halt
       else
-        @program_counter += target.value
+        @program_counter += target.value - 1
       end
     end
   end

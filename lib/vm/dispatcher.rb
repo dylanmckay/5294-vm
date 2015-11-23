@@ -8,27 +8,29 @@ class Dispatcher
   def initialize(instructions, bus)
 
     @cores = (0...instructions.length).map do |core_number|
-      Core.new(instructions[core_number], bus, self)
-    end
-  end
-
-  def tick
-    @cores.each do |core|
-      core.tick
+      Core.new(core_number, instructions[core_number], bus, self)
     end
   end
 
   def run
-    tick while running?
+    @threads = @cores.map do |core|
+      Thread.new { core.run }
+    end
+
+    @threads.each { |thread| thread.join }
   end
 
   def running?
     @cores.each.any?(&:running?)
   end
 
+  def post_message(sender, core_number, value)
+    core(core_number).post_message(sender, value)
+  end
+
   def core(number)
-    if core[number]
-      core[number]
+    if cores[number]
+      cores[number]
     else
       raise CoreException, "core numbered #{number} does not exist"
     end

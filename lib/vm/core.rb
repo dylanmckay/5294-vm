@@ -6,20 +6,35 @@ class CoreException
   end
 end
 
+class Message
+  attr_reader :sender, :value
+  def initialize(sender, value)
+    @sender = sender
+    @value = value
+  end
+end
+
 class Core
 
   attr_reader :a, :b, :program_counter, :halted
 
-  def initialize(instructions,
+  def initialize(core_number,
+                 instructions,
                  bus,
                  dispatcher = nil)
-    @a = 0
+    @a = 1
     @b = 0
+    @core_number = core_number
     @instructions = instructions
     @bus = bus
     @program_counter = 0
     @halted = false
     @dispatcher = dispatcher
+    @messages = []
+  end
+
+  def post_message(sender, value)
+    @messages << Message.new(sender, value)
   end
 
   def fetch
@@ -62,6 +77,10 @@ class Core
 
     instruction = fetch
     execute(instruction)
+  end
+
+  def run
+    tick while running?
   end
 
   def swp
@@ -133,7 +152,7 @@ class Core
     elsif source.is_integer?
       source.value
     elsif source.is_cpu?
-      # TODO
+      receive_message_from(source.value).value
     end
   end
 
@@ -145,7 +164,11 @@ class Core
     elsif destination.is_a?
       @a = value
     elsif destination.is_cpu?
-      # TODO
+      if @dispatcher.nil?
+        raise CoreException, 'cannot write to a CPU core without a dispatcher'
+      end
+
+      @dispatcher.post_message(@core_number, destination.value, value)
     end
   end
 
@@ -157,5 +180,16 @@ class Core
 
   def halt
     @halted = true
+  end
+
+  def receive_message_from(core_number)
+    loop do
+      @messages.each_with_index do |msg,index|
+        if msg.sender == core_number
+          return @messages.delete_at(index)
+        end
+      end
+    end
+    @messages.shift
   end
 end

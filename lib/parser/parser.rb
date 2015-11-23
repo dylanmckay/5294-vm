@@ -11,7 +11,7 @@ class Parser
       Regexp.new("^(?<mnemonic>#{mnemonics.join("|")})\\s*#{args}$")
     end
 
-    CPU_ID = /#(?<cpu_id>[0-9])/
+    CPU_ID = /#(?<core_id>[0-9])/
     INTEGER = /(\+|-)?[0-9]+/
     SOURCE = /in|a|null|#{INTEGER}|#[0-9]/
     DEST = /out|a|null|#[0-9]/
@@ -27,7 +27,7 @@ class Parser
   end
 
   def programs
-    current_cpu = nil
+    current_core = nil
     each_cpu.map do |lines|
       lines.map { |instruction| parse_instruction(instruction) }
     end
@@ -69,26 +69,26 @@ class Parser
     if operand =~ entire_line(Matchers::INTEGER)
       Operand.integer(operand.to_i)
     elsif operand =~ entire_line(Matchers::CPU_ID)
-      Operand.cpu(Regexp.last_match[:cpu_id].to_i)
+      Operand.core(Regexp.last_match[:core_id].to_i)
     else
       Operand.send(operand.to_sym)
     end
   end
 
   def each_cpu(&block)
-    cpus = []
-    current_cpu = nil
+    cores = []
+    current_core = nil
 
     each_line do |line|
       if line =~ entire_line(Matchers::CPU_ID)
-        current_cpu = Regexp.last_match[:cpu_id].to_i
-        cpus[current_cpu] = []
+        current_core = Regexp.last_match[:core_id].to_i
+        cores[current_core] = []
       else
-        cpus[current_cpu] << line
+        cores[current_core] << line
       end
     end
 
-    cpus.each(&block)
+    cores.each(&block)
   end
 
   def each_line(&block)

@@ -158,7 +158,7 @@ class Core
       @a
     elsif source.is_integer?
       source.value
-    elsif source.is_cpu?
+    elsif source.is_core?
       receive_message_from(source.value).value
     end
   end
@@ -170,7 +170,7 @@ class Core
       @bus.write_integer(value)
     elsif destination.is_a?
       @a = value
-    elsif destination.is_cpu?
+    elsif destination.is_core?
       if @dispatcher.nil?
         raise CoreException, 'cannot write to a CPU core without a dispatcher'
       end

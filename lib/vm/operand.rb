@@ -24,8 +24,8 @@ class Operand
     Operand.new(:integer, value)
   end
 
-  def self.cpu(number)
-    Operand.new(:cpu, number)
+  def self.core(number)
+    Operand.new(:core, number)
   end
 
   def initialize(type, value)
@@ -53,7 +53,7 @@ class Operand
     @type == :integer
   end
 
-  def is_cpu?
+  def is_core?
     @type == :cpu
   end
 
@@ -66,7 +66,7 @@ class Operand
     when :null then "null"
     when :register then @value.to_s
     when :integer then @value.to_s
-    when :cpu then "\##{@value}"
+    when :core then "\##{@value}"
     when :io then
       case @value
       when :in then "in"

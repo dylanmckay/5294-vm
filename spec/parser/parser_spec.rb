@@ -100,7 +100,7 @@ RSpec.describe Parser do
 
       context "using a CPU core" do
         let(:operand) { "#3" }
-        it { is_expected.to eq Operand.cpu(3) }
+        it { is_expected.to eq Operand.core(3) }
       end
 
       context "using a CPU core > 9" do
@@ -130,7 +130,7 @@ RSpec.describe Parser do
 
       context "using a CPU core" do
         let(:operand) { "#5" }
-        it { is_expected.to eq Operand.cpu(5) }
+        it { is_expected.to eq Operand.core(5) }
       end
     end
 

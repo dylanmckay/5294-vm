@@ -5,17 +5,17 @@ describe CliBus do
 
   let(:bus) { CliBus.new }
 
-  # describe "#read_integer" do
-  #   it "calls 'gets'" do
-  #     expect(bus).to receive(:gets).and_return(2)
-  #     bus.read_integer
-  #   end
-  # end
-  #
-  # describe "#write_integer" do
-  #   it "calls 'puts'" do
-  #     expect(bus).to receive(:puts)
-  #     bus.write(integer(1))
-  #   end
-  # end
+  describe "#read_integer" do
+    it "calls 'gets'" do
+      expect($stdin).to receive(:gets).and_return("12\n")
+      bus.read_integer
+    end
+  end
+
+  describe "#write_integer" do
+    it "calls 'puts'" do
+      expect(bus).to receive(:puts)
+      bus.write_integer(1)
+    end
+  end
 end

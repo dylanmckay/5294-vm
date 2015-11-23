@@ -21,7 +21,7 @@ class Core
                  instructions:,
                  bus:,
                  dispatcher: nil)
-    @a = 1
+    @a = 0
     @b = 0
     @core_number = core_number
     @instructions = instructions

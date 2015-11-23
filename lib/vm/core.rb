@@ -14,7 +14,7 @@ class Core
     end
   end
 
-  attr_reader :a, :b, :program_counter, :halted
+  attr_reader :a, :b, :program_counter, :halted, :messages
   attr_writer :a, :b
 
   def initialize(core_number,

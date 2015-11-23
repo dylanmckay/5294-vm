@@ -30,4 +30,18 @@ describe Dispatcher do
       expect(dispatcher.running?).to eq false
     end
   end
+
+  describe "#post_message" do
+
+    it "places a message into the queue of the receipent core" do
+      dispatcher.post_message(0, 1, 50)
+      expect(dispatcher.core(1).messages.length).to eq 1
+    end
+  end
+
+  describe "#core" do
+    it "raises an exception if the core does not exist" do
+      expect {dispatcher.core(2)}.to raise_error(Core::CoreException)
+    end
+  end
 end

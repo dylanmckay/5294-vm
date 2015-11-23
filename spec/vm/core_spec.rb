@@ -1,5 +1,6 @@
 require_relative '../../lib/vm/core'
 require_relative '../../lib/vm/cli_bus'
+require_relative '../../lib/vm/dispatcher'
 
 describe Core do
 
@@ -17,6 +18,10 @@ describe Core do
 
   def io_out
     Operand.out
+  end
+
+  def cpu_core(number)
+    Operand.core(number)
   end
 
   def add(value)
@@ -44,9 +49,11 @@ describe Core do
   end
 
   let(:bus) { instance_double(CliBus) }
+  let(:dispatcher) { instance_double(Dispatcher) }
 
   let(:core) {
-    Core.new(0, instructions: [], bus: bus)
+    Core.new(0, instructions: [], bus: bus,
+             dispatcher: dispatcher)
   }
 
   it "fetches instructions correctly" do
@@ -206,6 +213,13 @@ describe Core do
           expect { conditional_branch(:jlz,15,0) }.to change{core.pc}.by(1)
         end
       end
+    end
+  end
+
+  context "message passing" do
+    it "passes messages on to the dispatcher" do
+      expect(dispatcher).to receive(:post_message)
+      execute(mov(integer(52), cpu_core(1)))
     end
   end
 

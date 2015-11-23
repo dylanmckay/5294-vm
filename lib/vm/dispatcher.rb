@@ -37,7 +37,7 @@ class Dispatcher
     if cores[number]
       cores[number]
     else
-      raise CoreException, "core numbered #{number} does not exist"
+      raise Core::CoreException, "core numbered #{number} does not exist"
     end
   end
 end

@@ -1,5 +1,11 @@
 
 class Instruction
+  attr_reader :mnemonic
+
+  def initialize(mnemonic)
+    @mnemonic = mnemonic
+  end
+
   def ==(other)
     other.class == self.class && other.state == self.state
   end
@@ -10,73 +16,63 @@ class Instruction
 end
 
 class PlainInstruction < Instruction
-
-  attr_reader :mnemonic
-
-  def initialize(mnemonic)
-    @mnemonic = mnemonic
-  end
-
   def operands
     []
   end
 
   def to_s
-    @mnemonic.to_s
+    mnemonic.to_s
   end
 end
 
 class UnaryInstruction < Instruction
-
-  attr_reader :mnemonic, :value
+  attr_reader :value
 
   def initialize(mnemonic, value)
-    @mnemonic = mnemonic
+    super(mnemonic)
     @value = value
   end
 
   def operands
-    [@value]
+    [value]
   end
 
   def to_s
-    "#{@mnemonic} #{@value}"
+    "#{mnemonic} #{value}"
   end
 end
 
 class BinaryInstruction < Instruction
-
-  attr_reader :mnemonic, :lhs, :rhs
+  attr_reader :lhs, :rhs
 
   def initialize(mnemonic, lhs, rhs)
-    @mnemonic = mnemonic
+    super(mnemonic)
     @lhs = lhs
     @rhs = rhs
   end
 
   def operands
-    [@lhs, @rhs]
+    [lhs, rhs]
   end
 
   def to_s
-    "#{@mnemonic} #{@lhs} #{@rhs}"
+    "#{mnemonic} #{lhs} #{rhs}"
   end
 end
 
 class JumpInstruction < Instruction
-
-  attr_reader :mnemonic, :target
+  attr_reader :target
 
   def initialize(mnemonic, target)
-    @mnemonic = mnemonic
+    super(mnemonic)
     @target = target
   end
 
   def operands
-    [@target]
+    [target]
   end
 
   def to_s
-    "#{@mnemonic} #{@target}"
+    "#{mnemonic} #{target}"
   end
 end

@@ -81,7 +81,7 @@ class Core
     instruction = fetch
     execute(instruction)
 
-    if !@dispatcher.nil? && @dispatcher.debugging
+    if !@dispatcher.nil? && @dispatcher.debugging?
       puts "##{@core_number}: #{instruction} (#{a} #{b})"
     end
   end

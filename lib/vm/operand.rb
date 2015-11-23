@@ -54,7 +54,7 @@ class Operand
   end
 
   def is_core?
-    @type == :cpu
+    @type == :core
   end
 
   def ==(other)

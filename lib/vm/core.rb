@@ -89,9 +89,7 @@ class Core
   end
 
   def swp
-    tmp = @b
-    @b = @a
-    @a = tmp
+    @a, @b = @b, @a
   end
 
   def sav

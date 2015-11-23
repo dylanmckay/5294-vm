@@ -24,7 +24,7 @@ describe Core do
   end
 
   let(:core) {
-    Core.new([], instance_double(CliBus))
+    Core.new(0, instructions: [], bus: instance_double(CliBus))
   }
 
   context "binary instructions" do

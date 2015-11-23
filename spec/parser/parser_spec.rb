@@ -60,7 +60,7 @@ RSpec.describe Parser do
 
       context "when parsing an invalid instruction" do
         let(:instruction) { "jbz 7" }
-        it("raises an exception") { expect { subject }.to raise_error Parser::ParseError }
+        it("raises an exception") { expect { subject }.to raise_error(Parser::ParseError) }
       end
     end
 
@@ -105,7 +105,12 @@ RSpec.describe Parser do
 
       context "using a CPU core > 9" do
         let(:operand) { "#10" }
-        it("raises an error") { expect { subject }.to raise_error Parser::ParseError }
+        it("raises an error") { expect { subject }.to raise_error(Parser::ParseError) }
+      end
+
+      context "using a floating-point number" do
+        let(:operand) { "10.5" }
+        it("raises an error") { expect { subject }.to raise_error(Parser::ParseError) }
       end
     end
 
@@ -131,6 +136,16 @@ RSpec.describe Parser do
       context "using a CPU core" do
         let(:operand) { "#5" }
         it { is_expected.to eq Operand.core(5) }
+      end
+
+      context "using the b register" do
+        let(:operand) { "b" }
+        it("raises an error") { expect { subject }.to raise_error(Parser::ParseError) }
+      end
+
+      context "using an integer" do
+        let(:operand) { "12" }
+        it("raises an error") { expect { subject }.to raise_error(Parser::ParseError) }
       end
     end
 

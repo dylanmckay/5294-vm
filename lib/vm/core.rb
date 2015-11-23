@@ -1,17 +1,19 @@
 require_relative 'instruction'
 
-class CoreException < Exception
-end
-
-class Message
-  attr_reader :sender, :value
-  def initialize(sender, value)
-    @sender = sender
-    @value = value
-  end
-end
 
 class Core
+
+  class CoreException < Exception
+  end
+
+  class Message
+    attr_reader :sender, :value
+    def initialize(sender, value)
+      @sender = sender
+      @value = value
+    end
+  end
+
   attr_reader :a, :b, :program_counter, :halted
   attr_writer :a, :b
 
@@ -154,7 +156,7 @@ class Core
       0
     elsif source.is_in?
       @bus.read_integer
-    elsif source.is_a?
+    elsif source.is_register_a?
       @a
     elsif source.is_integer?
       source.value
@@ -168,7 +170,7 @@ class Core
       # do nothing
     elsif destination.is_out?
       @bus.write_integer(value)
-    elsif destination.is_a?
+    elsif destination.is_register_a?
       @a = value
     elsif destination.is_core?
       if @dispatcher.nil?

@@ -45,7 +45,7 @@ class Operand
     @type == :io && value == :out
   end
 
-  def is_a?
+  def is_register_a?
     @type == :register && value == :a
   end
 

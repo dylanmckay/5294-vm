@@ -41,10 +41,6 @@ class Core
       return nil
     end
 
-    if !program_counter_in_bounds?
-      raise CoreException('program jumped out of range')
-    end
-
     @instructions[@program_counter]
   end
 
@@ -67,6 +63,11 @@ class Core
     end
 
     @program_counter += 1
+
+    if !program_counter_in_bounds?
+      raise CoreException('program jumped out of range')
+    end
+
   end
 
   def pc

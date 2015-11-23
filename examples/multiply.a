@@ -12,8 +12,9 @@ add #2    ~ add second number
 sav       ~ save new total
 jmp -5    ~ loop
 
-swp
+swp        ~ get result
 mov a, out ~ print result
+jmp -1000  ~ goto start
 
 #1
 mov #0, a ~ get second number
@@ -21,7 +22,7 @@ sub 1
 sub 1     ~ -2 (so that if 1 is passed in it's immediately < 0)
 mov a, #2
 mov a, #0 ~ give the counter to other cores
-jlz +1000 ~ return if finished
+jlz -1000 ~ goto start if finished
 jmp -4    ~ go back and subtract one
 
 #2
@@ -29,8 +30,10 @@ mov #0, a ~ get second number
 sav       ~ save it
 
 mov #1, a ~ get counter
-jlz +1000 ~ return if finished
+jlz +5    ~ return if finished
 swp       ~ get back the second number
 sav       ~ make sure it's still saved
 mov a, #0 ~ send the number to #0 for adding
 jmp -5    ~ loop
+
+jmp -1000 ~ return if finished

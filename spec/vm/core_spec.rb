@@ -19,10 +19,6 @@ describe Core do
     Operand.out
   end
 
-  def core(number)
-    Operand.cpu(number)
-  end
-
   def add(value)
     UnaryInstruction.new(:add, value)
   end

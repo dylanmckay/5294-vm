@@ -4,7 +4,7 @@ require_relative "../lib/parser/parser"
 require_relative "../lib/vm/cli_bus"
 require_relative "../lib/vm/dispatcher"
 
-instructions = Parser.new(File.read(ARGV[0])).cpu_instructions
+instructions = Parser.new(File.read(ARGV[0])).programs
 dispatcher = Dispatcher.new(instructions, bus: CliBus.new, debug: ARGV.include?("--debug"))
 
 dispatcher.run

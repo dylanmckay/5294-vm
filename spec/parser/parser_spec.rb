@@ -1,12 +1,12 @@
 require "spec_helper"
 
 RSpec.describe Parser do
-  describe "#cpu_instructions" do
+  describe "#programs" do
     let(:parser) { Parser.new(file_content) }
 
     context "with basic single expressions" do
       let(:file_content) { "#0\n#{instruction}\n" }
-      subject { parser.cpu_instructions[0].first }
+      subject { parser.programs[0].first }
 
       context "when parsing a swp instruction" do
         let(:instruction) { "swp" }
@@ -66,7 +66,7 @@ RSpec.describe Parser do
 
     context "with different source operands" do
       let(:file_content) { "#0\nadd #{operand}\n" }
-      subject { parser.cpu_instructions[0].first.value }
+      subject { parser.programs[0].first.value }
 
       context "using the input device" do
         let(:operand) { "in" }
@@ -111,7 +111,7 @@ RSpec.describe Parser do
 
     context "with different destination operands" do
       let(:file_content) { "#0\nmov a, #{operand}\n" }
-      subject { parser.cpu_instructions[0].first.rhs }
+      subject { parser.programs[0].first.rhs }
 
       context "using the output device" do
         let(:operand) { "out" }
@@ -145,11 +145,11 @@ add in
       END
 
       it "creates one CPU entry" do
-        expect(parser.cpu_instructions.size).to eq 1
+        expect(parser.programs.size).to eq 1
       end
 
       it "ignores blank and comment lines" do
-        expect(parser.cpu_instructions[0].size).to eq 3
+        expect(parser.programs[0].size).to eq 3
       end
     end
 
@@ -164,15 +164,15 @@ mov #0, a        ~ accept integer from CPU #0, store in a register
       END
 
       it "creates two CPU entries" do
-        expect(parser.cpu_instructions.size).to eq 2
+        expect(parser.programs.size).to eq 2
       end
 
       it "adds instructions for the first CPU" do
-        expect(parser.cpu_instructions[0].size).to eq 2
+        expect(parser.programs[0].size).to eq 2
       end
 
       it "adds instructions for the second CPU" do
-        expect(parser.cpu_instructions[1].size).to eq 1
+        expect(parser.programs[1].size).to eq 1
       end
     end
   end

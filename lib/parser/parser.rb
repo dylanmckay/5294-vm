@@ -26,7 +26,7 @@ class Parser
     @lines = content.split("\n")
   end
 
-  def cpu_instructions
+  def programs
     current_cpu = nil
     each_cpu.map do |lines|
       lines.map { |instruction| parse_instruction(instruction) }

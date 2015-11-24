@@ -57,17 +57,14 @@ describe Core do
 
   subject(:core) {
       Core.new(0, instructions: [
-        add(integer(7))
+        add(integer(7)),
+        sub(integer(1))
       ], bus: bus, dispatcher: dispatcher)
   }
 
   it "fetches instructions correctly" do
-    core = Core.new(0, instructions: [
-      add(integer(2)),
-      sub(integer(1))
-    ], bus:  instance_double(CliBus))
 
-    expect(core.fetch).to eq add(integer(2))
+    expect(core.fetch).to eq add(integer(7))
     core.execute(add(integer(2)))
     expect(core.fetch).to eq sub(integer(1))
   end
@@ -114,7 +111,7 @@ describe Core do
     end
 
     context "at the end of the program" do
-      before { core.tick }
+      before { core.run }
 
       it { is_expected.not_to be_running }
     end

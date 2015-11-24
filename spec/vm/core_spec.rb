@@ -55,9 +55,10 @@ describe Core do
   let(:bus) { instance_double(CliBus) }
   let(:dispatcher) { instance_double(Dispatcher) }
 
-  let(:core) {
-    Core.new(0, instructions: [], bus: bus,
-             dispatcher: dispatcher)
+  subject(:core) {
+      Core.new(0, instructions: [
+        add(integer(7))
+      ], bus: bus, dispatcher: dispatcher)
   }
 
   it "fetches instructions correctly" do
@@ -107,19 +108,15 @@ describe Core do
   end
 
   describe "#running?" do
-    before {
-      @core = Core.new(0, instructions: [
-        add(integer(7))
-      ], bus: instance_double(CliBus))
-    }
 
-    it "is true at the start of the program" do
-      expect(@core.running?).to eq true
+    context "at the start of the program" do
+      it { is_expected.to be_running }
     end
 
-    it "is false at the end of the program" do
-      @core.tick
-      expect(@core.running?).to eq false
+    context "at the end of the program" do
+      before { core.tick }
+
+      it { is_expected.not_to be_running }
     end
   end
 
